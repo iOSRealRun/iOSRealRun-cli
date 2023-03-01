@@ -2,6 +2,7 @@ def geodistance(p1, p2):
     lat1, lng1 = p1["lat"], p1["lng"]
     lat2, lng2 = p2["lat"], p2["lng"]
     from math import radians, cos, sin, asin, sqrt
+    #lng1,lat1,lng2,lat2 = (120.12802999999997,30.28708,115.86572000000001,28.7427)
     lng1, lat1, lng2, lat2 = map(radians, [float(lng1), float(lat1), float(lng2), float(lat2)]) # 经纬度转换成弧度
     dlon=lng2-lng1
     dlat=lat2-lat1
@@ -51,6 +52,7 @@ def run1(loc, v, dt=0.2):
         clock = time.time()
 
 def run(loc, v):
+    import tools.utils as utils
     newLoc = randLoc(loc)
     while True:
         run1(newLoc, v)

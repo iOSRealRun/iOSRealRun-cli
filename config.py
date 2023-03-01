@@ -1,3 +1,3 @@
-v = 20
+v = 10
 libimobiledeviceDir = "libimobiledevice"
 imageDir = "DeveloperDiskImage"

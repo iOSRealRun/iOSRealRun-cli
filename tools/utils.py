@@ -1,9 +1,14 @@
-def cmd(i_cmd):
+def cmd(i_cmd, disp=True):
     from main import seperator
     from main import libimobiledeviceDir
     import subprocess
+    import os
     i_cmd = seperator.join([libimobiledeviceDir, i_cmd])
-    return subprocess.Popen(i_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout.read().decode("utf-8")
+    if disp:
+        return subprocess.Popen(i_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout.read().decode("utf-8")
+    else:
+        return os.system(i_cmd)
+
 
 def getOS():
     import sys
@@ -47,8 +52,8 @@ def getDeviceInfo():
 
 
 def setLoc(loc):
-    cmd("idevicesetlocation -- " + str(loc["lat"]-0.00389) + " " + str(loc["lng"]-0.01071))
+    cmd("idevicesetlocation -- " + str(loc["lat"]-0.00389) + " " + str(loc["lng"]-0.01071), False)
 
 def resetLoc():
-    cmd("idevicesetlocation reset")
+    cmd("idevicesetlocation reset", False)
 
