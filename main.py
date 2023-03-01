@@ -1,9 +1,13 @@
 import sys
+import os
 import tools.utils as utils
 import tools.run as run
 from tools.initialize import connect, init
 from config import v, libimobiledeviceDir
 
+if not os.path.exists("./log"):
+    os.mkdir("./log")
+sys.stderr=open("./log/error.log", "w")  # redirect error message
 
 # path separators for different systems
 seperator = {"win": "\\", "darwin": "/", "linux": "/"}
@@ -17,7 +21,6 @@ loc = init()  # get the route
 print("路线信息读取成功")
 
 
-sys.stderr=None  # cancel the error message when press ctrl + c
 print("已开始模拟跑步")
 print("会无限绕圈，要停可以按Ctrl+C")
 print("请勿直接关闭窗口，否则无法还原正常定位")
