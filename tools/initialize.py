@@ -5,7 +5,12 @@ def connect() -> int:
     import os
     import sys
     from main import seperator
-    from config import imageDir
+    from main import OS
+    from config import imageDir, libimobiledeviceDir
+
+    if OS != "win":
+        os.system("chmod -R +rx " + libimobiledeviceDir)
+
     status = utils.pair()
     while status == 1:
         print("无设备连接，Windows需要安装iTunes")
@@ -21,9 +26,9 @@ def connect() -> int:
     print("系统版本：{}".format(version))
 
     if int(version.split(".")[0]) >= 16:
-        developerMode = -1 == utils.cmd("idevicedevmodectl list").find("disable")
+        developerMode = -1 == utils.cmd(["idevicedevmodectl", "list"]).find("disable")
         if not developerMode:
-            utils.cmd("idevicedevmodectl reveal", False)
+            utils.cmd(["idevicedevmodectl", "reveal"], False)
             print("请在系统设置-隐私与安全性-开发者模式中打开开发者模式")
             print("可能需要按要求重启手机/pad")
             print("请在开启开发者模式之后重新打开本脚本，开机后请不要急，等确认所有开发者模式相关的弹出框再打开本脚本")
@@ -43,7 +48,11 @@ def connect() -> int:
         print("按回车退出")
         sys.exit()
 
-    imageCMD = "ideviceimagemounter {}{}{}{}DeveloperDiskImage.dmg {}{}{}{}DeveloperDiskImage.dmg.signature".format(*(2*[imageDir, seperator, version, seperator]))
+    imageCMD = [
+        "ideviceimagemounter",
+        "{}{}{}{}DeveloperDiskImage.dmg".format(imageDir, seperator, version, seperator),
+        "{}{}{}{}DeveloperDiskImage.dmg.signature".format(imageDir, seperator, version, seperator),
+    ]
     if -1 != utils.cmd(imageCMD).find("-3"):
         print("开发者镜像签名验证失败，你要重新下一遍")
         print("完成后再打开脚本")

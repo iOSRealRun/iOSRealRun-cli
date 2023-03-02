@@ -9,10 +9,18 @@ if not os.path.exists("./log"):
     os.mkdir("./log")
 sys.stderr=open("./log/error.log", "w")  # redirect error message
 
+
+OS = utils.getOS()
 # path separators for different systems
 seperator = {"win": "\\", "darwin": "/", "linux": "/"}
-seperator = seperator[utils.getOS()]
-libimobiledeviceDir += seperator + utils.getOS()
+seperator = seperator[OS]
+libimobiledeviceDir += seperator + OS
+# environment variables
+env = {
+    "win": None,
+    "darwin": {"DYLD_LIBRARY_PATH": os.getcwd() + "/" + libimobiledeviceDir},
+    "linux": None
+}
 
 # connect to the device and mount DevelopDiskImage
 connect()

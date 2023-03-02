@@ -1,27 +1,29 @@
-def cmd(i_cmd, disp=True):
+def cmd(i_cmd):
     from main import seperator
     from main import libimobiledeviceDir
+    from main import OS, env
     import subprocess
     import os
-    i_cmd = seperator.join([libimobiledeviceDir, i_cmd])
-    if disp:
-        return subprocess.Popen(i_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True).stdout.read().decode("utf-8")
+    disp = True
+    if type(i_cmd) == str:
+        i_cmd = seperator.join([libimobiledeviceDir, i_cmd])
     else:
-        return os.system(i_cmd)
+        i_cmd[0] = seperator.join([libimobiledeviceDir, i_cmd[0]])
+    return subprocess.Popen(i_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env[OS]).stdout.read().decode("utf-8")
 
 
 def getOS():
     import sys
-    os = sys.platform
-    if -1 != os.find("win"):
+    OS = sys.platform
+    if -1 != OS.find("win32"):
         return "win"
-    elif -1 != os.find("darwin"):
+    elif -1 != OS.find("darwin"):
         return "darwin"
     else:
         return "linux"
 
 def pair() -> int:
-    resp = cmd("idevicepair pair")
+    resp = cmd(["idevicepair", "pair"])
     if -1 != resp.find("SUCCESS"):
         return 0
     if -1 != resp.find("No device found"):
@@ -29,13 +31,13 @@ def pair() -> int:
     if -1 != resp.find("passcode"):
         while -1 != resp.find("passcode"):
             input("请解锁手机后按回车")
-            resp = cmd("idevicepair pair")
+            resp = cmd(["idevicepair", "pair"])
         if -1 != resp.find("SUCCESS"):
             return 0
     if -1 != resp.find("trust"):
         while -1 != resp.find("trust"):
             input("请在你的手机/或平板上按提示信任此电脑并按回车")
-            resp = cmd("idevicepair pair")
+            resp = cmd(["idevicepair", "pair"])
         if -1 != resp.find("SUCCESS"):
             return 0
         else:
@@ -52,7 +54,7 @@ def getDeviceInfo():
 
 
 def setLoc(loc):
-    cmd("idevicesetlocation -- " + str(loc["lat"]-0.00389) + " " + str(loc["lng"]-0.01075), False)
+    cmd(["idevicesetlocation", "--", str(loc["lat"]-0.00389), str(loc["lng"]-0.01075)])
 
 def resetLoc():
-    cmd("idevicesetlocation reset", False)
+    cmd(["idevicesetlocation", "reset"])
