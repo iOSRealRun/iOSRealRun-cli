@@ -24,7 +24,7 @@ iOSFakeRun-cli
 ## 使用方法
   还没写，认识的人先用吧  
   大概步骤:  
-  1. 下载代码到本地并解压到你喜欢的地方，接下来称`main.py`所在文件夹位**脚本目录  
+  1. 从 [Release](https://github.com/Geniucker/iOSFakeRun-cli/releases) 下载代码到本地并解压到你喜欢的地方，接下来称`main.py`所在文件夹位**脚本目录  
   2. 虚拟定位需要开发者镜像。我预置了 15.4 及以上的开发者镜像  
      如果你不是上述版本，你可以去网上找 DeveloperDiskImage  
      - 打开 [DeveloperDiskImage](https://github.com/mspvirajpatel/Xcode_Developer_Disk_Images/releases) 仓库  
@@ -46,6 +46,7 @@ iOSFakeRun-cli
 - 有一定的概率在第7、8步左右的时候，也就显示出你的系统版本之后会卡住，  
   ![图片](https://user-images.githubusercontent.com/61449208/222521731-fa7947f6-174b-46ab-8b8a-871aac7f6e5b.png)  
   这不是我的问题，我也没法修，解决方法是 Ctrl + C，这个时候脚本不会停，而是继续了，如果定位成功被修改了，那就不用管，如果定位模拟失败，那就继续 Ctrl + C ，再重新打开脚本  
+- 刚打开 `main.py` 的时候可能不会马上有东西显示（尤其是MacOS），请耐心等待  
 
 ## 免责声明
 本项目仅供 Python 和 C 学习交流作者对软件的用途不做任何说明或暗示。对使用本软件造成的一切后果概不负责  
