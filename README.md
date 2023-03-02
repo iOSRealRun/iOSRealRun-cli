@@ -4,6 +4,18 @@ iOSFakeRun-cli
 ## 背景
 原 [iOSFakeRun](https://github.com/Mythologyli/iOSFakeRun) 只能在windows上用，且每圈的路径是一样的。同时对于很多iOS/iPadOS16及以上的设备，不能方便地打开开发者模式，但是由于我不会C#无法给其提PR，所以有了这个项目
 
+## 功能
+- 已实现
+  - [x] 让你方便地打开开发者模式，而不需要借助爱思助手等第三方软件  
+  - [x] 和 [iOSFakeRun](https://github.com/Mythologyli/iOSFakeRun) 相同的路径格式  
+  - [x] 自定义配速  
+  - [x] 一种阴间的随机方式让每一圈不完全相同  
+  - [x] 支持 Windows 和 MacOS  
+- 暂未实现
+  - [ ] 阳间的随机方式  
+  - [ ] 支持 Linux/BSD，但这我不一定会去做（懒），毕竟用的人少  
+  - [ ] 多段配速变化  
+
 ## 原理
 不讲了，懂的自然懂
 
@@ -15,7 +27,7 @@ iOSFakeRun-cli
 - 已支持
   - [x] Windows 64位 (tested on Windows 11, Python 3.9)  
   - [x] MacOS (Apple Silicon) (tested on M2 Mac, Python 3.9) 
-  - [ ] MacOS (Intel) (不知道行不行，等人试)  
+  - [x] MacOS (Intel) (不知道行不行，等人试)  
 - 暂不支持
   - [ ] linux/bsd  
 - 不支持
