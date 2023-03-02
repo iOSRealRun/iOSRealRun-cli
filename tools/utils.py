@@ -56,4 +56,3 @@ def setLoc(loc):
 
 def resetLoc():
     cmd("idevicesetlocation reset", False)
-

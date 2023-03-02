@@ -11,10 +11,11 @@ def geodistance(p1, p2):
     distance=round(distance,3)
     return distance
 
-def randLoc(loc: list, d=0.0000005):
+def randLoc(loc: list, d=0.000001):
     import random
-    random.seed()
+    import time
     result = loc.copy()
+    random.seed(time.time())
     for i in result:
         i["lat"] += (2*random.random()-1) * d
         i["lng"] += (2*random.random()-1) * d
@@ -53,6 +54,7 @@ def run1(loc, v, dt=0.2):
 
 def run(loc, v):
     import tools.utils as utils
-    newLoc = randLoc(loc)
     while True:
+        newLoc = randLoc(loc)
         run1(newLoc, v)
+        print("跑完一圈了")

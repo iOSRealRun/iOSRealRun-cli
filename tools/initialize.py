@@ -33,6 +33,11 @@ def connect() -> int:
     imageStatus = os.path.exists("{}/{}/DeveloperDiskImage.dmg".format(imageDir, version)) and\
                   os.path.exists("{}/{}/DeveloperDiskImage.dmg.signature".format(imageDir, version))
     if not imageStatus:
+        version = ".".join(version.split(".")[0:2])
+        imageStatus = os.path.exists("{}/{}/DeveloperDiskImage.dmg".format(imageDir, version)) and\
+                    os.path.exists("{}/{}/DeveloperDiskImage.dmg.signature".format(imageDir, version))
+
+    if not imageStatus:
         print("没有在 {} 下找到 {} 版本的开发者镜像".format(imageDir, version))
         print("请添加完再打开本脚本")
         print("按回车退出")
