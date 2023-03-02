@@ -61,6 +61,7 @@ def connect() -> int:
 
 def init():
     import tools.snippet as snippet
-    with open("route.txt") as myFile:
+    from config import routeConfig
+    with open(routeConfig) as myFile:
         loc = snippet.split(myFile.read())
     return loc
