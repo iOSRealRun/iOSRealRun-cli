@@ -19,6 +19,16 @@ def connect() -> int:
     deviceName, version = utils.getDeviceInfo()
     print("已连接到 {}".format(deviceName))
     print("系统版本：{}".format(version))
+
+    if int(version.split(".")[0]) >= 16:
+        developerMode = -1 == utils.cmd("idevicedevmodectl list").find("disable")
+        if not developerMode:
+            utils.cmd("idevicedevmodectl reveal", False)
+            print("请在系统设置-隐私与安全性-开发者模式中打开开发者模式")
+            print("可能需要按要求重启手机/pad")
+            print("请在开启开发者模式之后重新打开本脚本，开机后请不要急，等确认所有开发者模式相关的弹出框再打开本脚本")
+            input("现在按回车退出")
+            sys.exit()
     
     imageStatus = os.path.exists("{}/{}/DeveloperDiskImage.dmg".format(imageDir, version)) and\
                   os.path.exists("{}/{}/DeveloperDiskImage.dmg.signature".format(imageDir, version))
