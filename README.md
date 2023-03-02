@@ -34,7 +34,6 @@ iOSFakeRun-cli
   - [ ] Windows 32位 (will never be supported)  
 
 ## 使用方法
-  还没写，认识的人先用吧  
   大概步骤:  
   1. 从 [Release](https://github.com/Geniucker/iOSFakeRun-cli/releases) 下载代码到本地并解压到你喜欢的地方，接下来称`main.py`所在文件夹位**脚本目录  
   2. 虚拟定位需要开发者镜像。我预置了 15.4 及以上的开发者镜像  
