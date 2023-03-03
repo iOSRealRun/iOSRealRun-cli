@@ -39,3 +39,4 @@ try:
     run.run(loc, v)
 finally:
     utils.resetLoc()
+    print("现在你可以关闭当前窗口或终端了")
