@@ -7,7 +7,7 @@ iOSRealRun-cli
 ## 功能
 - 已实现
   - [x] 让你方便地打开开发者模式，而不需要借助爱思助手等第三方软件  
-  - [x] 和 [iOSFakeRun](https://github.com/Mythologyli/iOSFakeRun) 相同的路径格式 (**但是请只花一圈**)  
+  - [x] 和 [iOSFakeRun](https://github.com/Mythologyli/iOSFakeRun) 相同的路径格式 (**但是请只画一圈**)  
   - [x] 自定义配速  
   - [x] 一种阴间的随机方式让每一圈不完全相同  
   - [x] 支持 Windows 和 MacOS  
