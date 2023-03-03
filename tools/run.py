@@ -80,9 +80,13 @@ def run1(loc: list, v, dt=0.2):
             pass
         clock = time.time()
 
-def run(loc: list, v):
+def run(loc: list, v, d=15):
     import tools.utils as utils
+    import random
+    import time
+    random.seed(time.time())
     while True:
         newLoc = randLoc(loc, n=7)
-        run1(newLoc, v)
+        vRand = 1000/(1000/v-(2*random.random()-1)*d)
+        run1(newLoc, vRand)
         print("跑完一圈了")
