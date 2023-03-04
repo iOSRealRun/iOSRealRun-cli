@@ -10,10 +10,20 @@ def connect() -> int:
 
     if OS != "win":
         os.system("chmod -R +rx " + libimobiledeviceDir)
+    if OS == "linux":
+        path = os.environ["PATH"].split(":")
+        check = False
+        for i in path:
+            if os.path.exists("{}/{}".format(i, "usbmuxd")):
+                check = True
+        if not check:
+            print("你没有安装usbmuxd，请再次阅读README中关于Linux的部分")
+            input("按回车退出")
 
+    input("请解锁手机或Pad后按回车")
     status = utils.pair()
     while status == 1:
-        print("无设备连接，Windows需要安装iTunes")
+        print("无设备连接，Windows需要安装iTunes，也可尝试解锁手机并插拔数据线")
         input("确定连接后按回车")
         status = utils.pair()
     if -1 == status:

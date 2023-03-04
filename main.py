@@ -21,7 +21,7 @@ libimobiledeviceDir += seperator + OS
 env = {
     "win": None,
     "darwin": {"DYLD_LIBRARY_PATH": os.getcwd() + "/" + libimobiledeviceDir},
-    "linux": None
+    "linux": {"LD_LIBRARY_PATH": os.getcwd() + "/" + libimobiledeviceDir}
 }
 
 # connect to the device and mount DevelopDiskImage
