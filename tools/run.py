@@ -86,7 +86,9 @@ def run(loc: list, v, d=15):
     import time
     random.seed(time.time())
     while True:
-        newLoc = randLoc(loc, n=7)
+        nList = (5, 7, 9)
+        n = nList[random.randint(0, len(nList)-1)]
+        newLoc = randLoc(loc, n=n)  # a path will be divided into n parts for random route
         vRand = 1000/(1000/v-(2*random.random()-1)*d)
         run1(newLoc, vRand)
         print("跑完一圈了")
