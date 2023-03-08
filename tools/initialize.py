@@ -23,7 +23,7 @@ def connect() -> int:
     input("请解锁手机或Pad后按回车")
     status = utils.pair()
     while status == 1:
-        print("无设备连接，Windows需要安装iTunes，也可尝试解锁手机并插拔数据线")
+        print("无设备连接，Windows需要安装iTunes，也可尝试解锁手机并插拔数据线，如果还是不行Mac和Windows请打开iTunes并在跑完前不要关闭")
         input("确定连接后按回车")
         status = utils.pair()
     if -1 == status:
