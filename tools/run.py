@@ -40,6 +40,8 @@ def randLoc(loc: list, d=0.000025, n=7):
         distance = math.sqrt(
             (result[j]["lat"]-center["lat"])**2 + (result[j]["lng"]-center["lng"])**2
         )
+        if 0 == distance:
+            continue
         result[j]["lat"] +=  (result[j]["lat"]-center["lat"])/distance*offset
         result[j]["lng"] +=  (result[j]["lng"]-center["lng"])/distance*offset
     return result
