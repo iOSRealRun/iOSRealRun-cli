@@ -59,3 +59,13 @@ def setLoc(loc):
 
 def resetLoc():
     cmd(["idevicesetlocation", "reset"], False)
+
+
+ES_CONTINUOUS = 0x80000000
+ES_DISPLAY_REQUIRED = 0x00000002
+def setDisplayRequired():
+    import ctypes
+    ctypes.windll.kernel32.SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED)
+def resetDisplayRequired():
+    import ctypes
+    ctypes.windll.kernel32.SetThreadExecutionState(ES_CONTINUOUS)

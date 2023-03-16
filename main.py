@@ -31,6 +31,8 @@ loc = init()  # get the route
 print("路线信息读取成功")
 
 
+if OS == "win":
+    utils.setDisplayRequired()
 print("已开始模拟跑步, 速度大约为 {} m/s".format(str(v)))
 print("会无限绕圈，要停可以按Ctrl+C")
 print("请勿直接关闭窗口，否则无法还原正常定位")
@@ -39,4 +41,6 @@ try:
     run.run(loc, v)
 finally:
     utils.resetLoc()
+    if OS == "win":
+        utils.resetDisplayRequired()
     print("现在你可以关闭当前窗口或终端了")
