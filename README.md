@@ -33,6 +33,8 @@ iOSRealRun-cli
 - 不支持
   - [ ] 任何x86的32位系统
 
+
+1. 用访达打开
 ## 使用方法
   大概步骤:  
   1. 安装依赖：
@@ -40,7 +42,7 @@ iOSRealRun-cli
      2. 若为Linux用户，请用你的包管理器安装`usbmuxd`  
         Debian/Ubuntu: `sudo apt install usbmuxd`  
         Red Hat/CentOS/Fedora: `sudo dnf install usbmuxd`  
-  2. 从 [Release](https://github.com/Geniucker/iOSFakeRun-cli/releases) 下载代码到本地并解压到你喜欢的地方，接下来称`main.py`所在文件夹位**脚本目录  
+  2. clone 本项目(推荐)或从 [Release](https://github.com/Geniucker/iOSFakeRun-cli/releases) 下载代码到本地并解压到你喜欢的地方，接下来称`main.py`所在文件夹位**脚本目录  
   3. 虚拟定位需要开发者镜像。我预置了 15.4 及以上的开发者镜像  
      如果你不是上述版本，你可以去网上找 DeveloperDiskImage  
      - 打开 [DeveloperDiskImage](https://github.com/mspvirajpatel/Xcode_Developer_Disk_Images/releases) 仓库  
@@ -52,12 +54,23 @@ iOSRealRun-cli
   5. 打开脚本目录里的 `route.txt` 文件，将刚复制的文件原封不动的粘贴进去，保存并退出  
   6. 对于 Windows，你需要安装 iTunes，以确保驱动正常运行  
   7. 在脚本目录中的 `config.py` 文件中设置 `v` 变量以设置速度(m/s)，给个参考，3.3大概是5分到5分半的配速（我也没仔细看）  
-  8. Mac用户和Windows用户可能需要打开iTunes，**且在跑完前不应关闭**   
-  9. 用数据线将电脑连接到 iPhone 或 iPad  
-  10. Mac 用户打开 `main.command`，Windows 用户打开 `main.py`  
-  11. 按照提示完成设备连接和开发者模式的开启  
-  12. 都好了大概就开跑了，默认无限循环  
-  13. 跑完之后请 **务必使用 Ctrl + C** 来停止，而非直接把窗口叉掉，否则不能自动恢复手机或pad的正常定位  
+  8. Mac用户和Windows用户可能需要打开iTunes，**且在跑完前不应关闭**  
+  9. 如果你是Mac用户且发现打不开，请继续看这一条  
+     由于MacOS新版系统的原因，无法直接打开下载的脚本，所以要进行一些操作赋予执行权限并通过“无法验证开发者”。  
+     用访达进入`main.command`所在的文件夹，将“显示”切换到“为分栏”，如图：  
+     <img src="https://user-images.githubusercontent.com/61449208/225846688-24037489-8b37-4336-96a6-32d7e33260f9.png" width="300rem">  
+     然后按照下图的指示进入终端：  
+     <img src="https://user-images.githubusercontent.com/61449208/225847449-68fb2f93-a91d-4899-b4e9-05e7d0874a10.png" width="400rem">  
+     最后执行下面的代码（复制进去按回车，期间大概率让你输密码）：
+     ```bash
+     chmod +x main.command
+     sudo xattr -d -r com.apple.quarantine .
+     ```
+  10. 用数据线将电脑连接到 iPhone 或 iPad  
+  11. Mac 用户打开 `main.command`，Windows 用户打开 `main.py`  
+  12. 按照提示完成设备连接和开发者模式的开启  
+  13. 都好了大概就开跑了，默认无限循环  
+  14. 跑完之后请 **务必使用 Ctrl + C** 来停止，而非直接把窗口叉掉，否则不能自动恢复手机或pad的正常定位  
 
 ## FAQ
 - 有一定的概率在第7、8步左右的时候，也就显示出你的系统版本之后会卡住，  
