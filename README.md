@@ -15,6 +15,8 @@ iOSRealRun-cli
   - [x] 支持 Linux/BSD  
 - 暂未实现
   - [ ] 阳间的随机方式  
+- 无法实现（libimobiledevice没有，我也不会）
+  - [ ] 步数模拟  
 
 ## 原理
 不讲了，懂的自然懂
