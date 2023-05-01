@@ -1,3 +1,4 @@
+# get the ditance according to the latitude and longitude
 def geodistance(p1, p2):
     lat1, lng1 = p1["lat"], p1["lng"]
     lat2, lng2 = p2["lat"], p2["lng"]
@@ -8,6 +9,11 @@ def geodistance(p1, p2):
     a=sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
     distance=2*asin(sqrt(a))*6371*1000 # 地球平均半径，6371km
     return distance
+
+def smooth(start, i, n):
+    import math
+    i = (i-start)/n*math.pi
+    return math.sin(i)**2
 
 def randLoc(loc: list, d=0.000025, n=7):
     import random
@@ -26,24 +32,28 @@ def randLoc(loc: list, d=0.000025, n=7):
     center["lng"] /= len(result)
     random.seed(time.time())
     for i in range(n):
-        for j in range(int(i*len(result)/n), int((i+1)*len(result)/n)):
+        start = int(i*len(result)/n)
+        end = int((i+1)*len(result)/n)
+        for j in range(start, end):
             offset = (2*random.random()-1) * d
             distance = math.sqrt(
                 (result[j]["lat"]-center["lat"])**2 + (result[j]["lng"]-center["lng"])**2
             )
             if 0 == distance:
                 continue
-            result[j]["lat"] +=  (result[j]["lat"]-center["lat"])/distance*offset
-            result[j]["lng"] +=  (result[j]["lng"]-center["lng"])/distance*offset
-    for j in range(int(i*len(result)/n), len(result)):
+            result[j]["lat"] +=  (result[j]["lat"]-center["lat"])/distance*offset*smooth(start, j, n)
+            result[j]["lng"] +=  (result[j]["lng"]-center["lng"])/distance*offset*smooth(start, j, n)
+    start = int(i*len(result)/n)
+    end = len(result)
+    for j in range(start, end):
         offset = (2*random.random()-1) * d
         distance = math.sqrt(
             (result[j]["lat"]-center["lat"])**2 + (result[j]["lng"]-center["lng"])**2
         )
         if 0 == distance:
             continue
-        result[j]["lat"] +=  (result[j]["lat"]-center["lat"])/distance*offset
-        result[j]["lng"] +=  (result[j]["lng"]-center["lng"])/distance*offset
+        result[j]["lat"] +=  (result[j]["lat"]-center["lat"])/distance*offset*smooth(start, j, n)
+        result[j]["lng"] +=  (result[j]["lng"]-center["lng"])/distance*offset*smooth(start, j, n)
     return result
 
 def fixLockT(loc: list, v, dt):
@@ -90,7 +100,7 @@ def run(loc: list, v, d=15):
     import time
     random.seed(time.time())
     while True:
-        nList = (5, 7, 9)
+        nList = (5, 6, 7)
         n = nList[random.randint(0, len(nList)-1)]
         newLoc = randLoc(loc, n=n)  # a path will be divided into n parts for random route
         vRand = 1000/(1000/v-(2*random.random()-1)*d)
