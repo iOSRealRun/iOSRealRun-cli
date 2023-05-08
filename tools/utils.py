@@ -1,12 +1,13 @@
-def cmd(i_cmd, getoutp=True):
+def cmd(i_cmd, getoutp=True, libimobiledevice=True):
     from main import seperator
     from main import libimobiledeviceDir
     from main import OS, env
     import subprocess
-    if type(i_cmd) == str:
-        i_cmd = seperator.join([libimobiledeviceDir, i_cmd])
-    else:
-        i_cmd[0] = seperator.join([libimobiledeviceDir, i_cmd[0]])
+    if libimobiledevice:
+        if type(i_cmd) == str:
+            i_cmd = seperator.join([libimobiledeviceDir, i_cmd])
+        else:
+            i_cmd[0] = seperator.join([libimobiledeviceDir, i_cmd[0]])
     if getoutp:
         return subprocess.Popen(i_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env[OS]).stdout.read().decode("utf-8")
     else:

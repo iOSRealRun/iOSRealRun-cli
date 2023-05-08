@@ -20,7 +20,9 @@ def connect() -> int:
                 print("你没有安装usbmuxd，请再次阅读README中关于Linux的部分")
                 input("按回车退出")
         else:
-            utils.cmd(["xattr", "-d", "-r", "com.apple.quarantine", "."], getoutp=False)
+            quarantine = not -1 == utils.cmd(["xattr", "libimobiledevice/darwin/ideviceinfo"], libimobiledevice=False).find("quarantine")
+            if quarantine:
+                os.system("sudo xattr -d -r com.apple.quarantine .")
 
     input("请解锁手机或Pad后按回车")
     status = utils.pair()
