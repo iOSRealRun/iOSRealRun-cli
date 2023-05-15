@@ -30,7 +30,7 @@ iOSRealRun-cli
 - 已支持
   - [x] Windows 64位 (tested on Windows 11, Python 3.9)  
   - [x] MacOS (Apple Silicon) (tested on M2 Mac, Python 3.9) 
-  - [x] MacOS (Intel) (不知道行不行，等人试)  
+  - [x] MacOS (Intel)  
   - [x] linux/bsd 64位 
 - 不支持
   - [ ] 任何x86的32位系统
