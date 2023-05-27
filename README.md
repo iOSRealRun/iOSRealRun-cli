@@ -2,7 +2,10 @@ iOSRealRun-cli
 ---
 
 ## 背景
-原 [iOSFakeRun](https://github.com/Mythologyli/iOSFakeRun) 只能在windows上用，且每圈的路径是一样的。同时对于很多iOS/iPadOS16及以上的设备，不能方便地打开开发者模式，但是由于我不会C#无法给其提PR，所以有了这个项目
+原 [iOSFakeRun](https://github.com/Mythologyli/iOSFakeRun) 只能在windows上用，且每圈的路径是一样的。同时对于很多iOS/iPadOS16及以上的设备，不能方便地打开开发者模式，但是由于我不会C#无法给其提PR，所以有了这个项目  
+
+## 注意
+本项目用到的 [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice) 可以进行**获取屏幕截图等涉及隐私的操作**，因此如果您要使用与本项目类似的闭源产品，请自行考虑风险。  
 
 ## 功能
 - 已实现
