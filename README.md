@@ -85,3 +85,6 @@ iOSRealRun-cli
 ## 致谢
 - [iOSFakeRun](https://github.com/Mythologyli/iOSFakeRun)  
 - [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice)
+
+## 许可证
+提交 [4d932f](https://github.com/iOSRealRun-cli/iOSRealRun-cli/commit/4d932f7b1a8b83a5b3baca8a19d45f8949fd1fe2) 将许可证由 MIT 改为 [MPL-2.0](https://github.com/iOSRealRun-cli/iOSRealRun-cli/blob/main/LICENSE), 此后以 [MPL-2.0](https://github.com/iOSRealRun-cli/iOSRealRun-cli/blob/main/LICENSE) 分发  
