@@ -5,7 +5,7 @@ import os
 import tools.utils as utils
 import tools.run as run
 from tools.initialize import connect, init
-from config import v, libimobiledeviceDir
+from tools.config import config
 
 if not os.path.exists("./log"):
     os.mkdir("./log")
@@ -16,7 +16,8 @@ OS = utils.getOS()
 # path separators for different systems
 seperator = {"win": "\\", "darwin": "/", "linux": "/"}
 seperator = seperator[OS]
-libimobiledeviceDir += seperator + OS
+libimobiledeviceDir = config.libimobiledeviceDir + seperator + OS
+v = config.v
 # environment variables
 env = {
     "win": None,
