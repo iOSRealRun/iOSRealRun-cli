@@ -43,6 +43,7 @@ jobs:
           cp build/*.bin output/
           cp config.yaml output/
           cp route.txt output/
+          cp main.command output/
           cp -r DeveloperDiskImage output/
           cp -r libimobiledevice/darwin output/libimobiledevice
 
