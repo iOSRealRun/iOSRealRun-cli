@@ -42,6 +42,7 @@ jobs:
           mkdir output/libimobiledevice
           cp build/*.exe output/
           cp config.yaml output/
+          cp route.txt output/
           cp -r DeveloperDiskImage output/
           cp -r libimobiledevice/win output/libimobiledevice
 
