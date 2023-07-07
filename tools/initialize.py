@@ -1,6 +1,7 @@
 import tools.utils as utils
 
 
+# connect to the device and mount DevelopDiskImage
 def connect() -> int:
     import os
     import sys
@@ -73,9 +74,10 @@ def connect() -> int:
         print("按回车退出")
         sys.exit()
 
+# read route information
 def init():
-    import tools.snippet as snippet
+    import tools.parseRoute as parseRoute
     from tools.config import config
     with open(config.routeConfig) as myFile:
-        loc = snippet.split(myFile.read())
+        loc = parseRoute.split(myFile.read())
     return loc

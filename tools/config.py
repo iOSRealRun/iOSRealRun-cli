@@ -1,3 +1,7 @@
+"""
+config.py
+read config from config.yaml
+"""
 import yaml
 
 class Config:

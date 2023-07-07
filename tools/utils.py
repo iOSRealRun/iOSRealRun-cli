@@ -1,3 +1,8 @@
+"""
+utils.py
+"""
+
+# execute a command and return the output
 def cmd(i_cmd, getoutp=True, libimobiledevice=True):
     from main import seperator
     from main import libimobiledeviceDir
@@ -14,6 +19,7 @@ def cmd(i_cmd, getoutp=True, libimobiledevice=True):
         subprocess.run(i_cmd, env=env[OS])
 
 
+# get the OS
 def getOS():
     import sys
     OS = sys.platform
@@ -24,6 +30,7 @@ def getOS():
     else:
         return "linux"
 
+# pair the device
 def pair() -> int:
     resp = cmd(["idevicepair", "pair"])
     if -1 != resp.find("SUCCESS"):

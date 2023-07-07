@@ -1,3 +1,7 @@
+"""
+run.py
+automatically run the route
+"""
 # get the ditance according to the latitude and longitude
 def geodistance(p1, p2):
     lat1, lng1 = p1["lat"], p1["lng"]
