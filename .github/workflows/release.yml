@@ -7,18 +7,13 @@ on:
 permissions: write-all
 
 jobs:
-  build-win:
-    uses: ./.github/workflows/build_win.yml
-  build-linux:
-    uses: ./.github/workflows/build_linux.yml
-  build-macos:
-    uses: ./.github/workflows/build_macos.yml
+  build:
+    uses: ./.github/workflows/build.yml
   release:
     needs:
-      - build-win
-      - build-linux
-      - build-macos
+      - build
     runs-on: ubuntu-latest
+    if: github.repository == 'iOSRealRun-cli/iOSRealRun-cli'
     steps:
       - name: Checkout codebase
         uses: actions/checkout@v3

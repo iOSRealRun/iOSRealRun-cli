@@ -1,4 +1,4 @@
-name: Build - MacOS
+name: Build
 
 on:
   push:
@@ -11,8 +11,11 @@ jobs:
     if: github.repository == 'iOSRealRun-cli/iOSRealRun-cli'
     strategy:
       matrix:
-        os: [macos-latest]
-        arch: [x64, arm64]
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        arch: [x64]
+        include:
+          - os: macos-latest
+            arch: arm64
 
     runs-on: ${{ matrix.os }}
 
@@ -40,7 +43,30 @@ jobs:
           script-name: main.py
           onefile: true
 
-      - name: Copy Files
+      - name: Copy Files (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          mkdir output
+          mkdir output/libimobiledevice
+          cp build/*.exe output/
+          cp config.yaml output/
+          cp route.txt output/
+          cp -r DeveloperDiskImage output/
+          cp -r libimobiledevice/win output/libimobiledevice
+      
+      - name: Copy Files (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          mkdir output
+          mkdir output/libimobiledevice
+          cp build/*.bin output/
+          cp config.yaml output/
+          cp route.txt output/
+          cp -r DeveloperDiskImage output/
+          cp -r libimobiledevice/linux output/libimobiledevice
+      
+      - name: Copy Files (macOS)
+        if: matrix.os == 'macos-latest'
         run: |
           mkdir output
           mkdir output/libimobiledevice
