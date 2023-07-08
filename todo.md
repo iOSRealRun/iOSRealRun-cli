@@ -1,0 +1,7 @@
+- [ ] main
+- toosl
+  - [x] config
+  - [ ] initialize
+  - [ ] parseRoute
+  - [ ] run
+  - [x] utils
