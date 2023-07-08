@@ -2,6 +2,6 @@
 - toosl
   - [x] config
   - [ ] initialize
-  - [ ] parseRoute
+  - [x] parseRoute
   - [ ] run
   - [x] utils

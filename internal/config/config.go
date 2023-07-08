@@ -17,11 +17,11 @@ type config struct {
 
 func SetupConfig() (conf config) {
 	conf = config{}
-	file, err := os.ReadFile("config.yaml")
+	content, err := os.ReadFile("config.yaml")
 	if err != nil {
 		panic(err)
 	}
-	err = yaml.Unmarshal(file, &conf)
+	err = yaml.Unmarshal(content, &conf)
 	if err != nil {
 		panic(err)
 	}
