@@ -2,23 +2,19 @@ package parseRoute
 
 import (
 	"encoding/json"
-	"os"
 	"strconv"
 )
 
-func Split(inp string) (out []map[string]float64) {
-	// read file
-	content, err := os.ReadFile(inp)
-	if err != nil {
-		panic(err)
-	}
-	// add [] to the beginning and end of the content
+func Split(inp []byte) (out []map[string]float64) {
+	// add [] to the beginning and end of the content, don't modify the original content
+	content := make([]byte, len(inp))
+	copy(content, inp)
 	content = append([]byte("["), content...)
 	content = append(content, []byte("]")...)
 
 	// parse using json
 	var tmp []map[string]string
-	err = json.Unmarshal(content, &tmp)
+	err := json.Unmarshal(content, &tmp)
 	if err != nil {
 		panic(err)
 	}

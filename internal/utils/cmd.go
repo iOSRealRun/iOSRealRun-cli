@@ -30,8 +30,5 @@ func Cmd(i_cmd []string, getoutp ...bool) string {
 
 func CmdWithlibimobidevice(i_cmd []string, libimobiledeviceDir string, getoutp ...bool) string {
 	i_cmd[0] = strings.Join([]string{libimobiledeviceDir, i_cmd[0]}, "/")
-	if GetOS() == "win" {
-		i_cmd[0] = strings.Replace(i_cmd[0], "/", "\\", -1)
-	}
 	return Cmd(i_cmd, getoutp...)
 }

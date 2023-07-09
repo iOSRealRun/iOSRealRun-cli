@@ -2,8 +2,12 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/iosRealRun-cli/iOSRealRun-cli/internal/config"
+	"github.com/iosRealRun-cli/iOSRealRun-cli/internal/utils"
 )
 
 func main() {
-	fmt.Println(fmt.Sprintf("%f", 1.0-0.00389))
+	conf := config.Config
+	fmt.Println(utils.CmdWithlibimobidevice([]string{"idevicepair", "pair"}, conf.LibimobiledeviceDir))
 }

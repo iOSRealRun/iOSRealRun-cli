@@ -27,11 +27,8 @@ func SetupConfig() (conf config) {
 	}
 
 	// set imageDir
-	os := utils.GetOS()
-	conf.LibimobiledeviceDir = strings.Join([]string{conf.LibimobiledeviceDir, os}, "/")
-	if os == "win" { // substitute / to \
-		conf.LibimobiledeviceDir = strings.Replace(conf.LibimobiledeviceDir, "/", "\\", -1)
-	}
+	OS := utils.GetOS()
+	conf.LibimobiledeviceDir = strings.Join([]string{conf.LibimobiledeviceDir, OS}, "/")
 
 	return
 }
