@@ -1,0 +1,80 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - go
+  workflow_call:
+
+jobs:
+  build:
+    if: github.repository == 'iOSRealRun-cli/iOSRealRun-cli'
+    strategy:
+      matrix:
+        goos: [windows, linux, darwin]
+        goarch: [amd64]
+        include:
+          - goos: darwin
+            goarch: arm64
+      fail-fast: false
+
+    runs-on: ubuntu-latest
+    env:
+      GOOS: ${{ matrix.goos }}
+      GOARCH: ${{ matrix.goarch }}
+
+    steps:
+      - name: Check-out repository
+        uses: actions/checkout@v3
+
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version-file: go.mod
+          cache: true
+          cache-dependency-path: go.sum
+
+      - name: Build
+        run: |
+          go build -o build/main
+
+      - name: Copy Files (Windows)
+        if: matrix.goos == 'windows'
+        run: |
+          mkdir output
+          mkdir output/libimobiledevice
+          cp build/main output/main.exe
+          cp config.yaml output/
+          cp route.txt output/
+          cp -r DeveloperDiskImage output/
+          cp -r libimobiledevice/win output/libimobiledevice
+        
+      - name: Copy Files (Linux)
+        if: matrix.goos == 'linux'
+        run: |
+          mkdir output
+          mkdir output/libimobiledevice
+          cp build/main output/
+          cp config.yaml output/
+          cp route.txt output/
+          cp -r DeveloperDiskImage output/
+          cp -r libimobiledevice/linux output/libimobiledevice
+      
+      - name: Copy Files (macOS)
+        if: matrix.goos == 'darwin'
+        run: |
+          mkdir output
+          mkdir output/libimobiledevice
+          cp build/main output/
+          cp config.yaml output/
+          cp route.txt output/
+          cp main.command output/
+          cp -r DeveloperDiskImage output/
+          cp -r libimobiledevice/darwin output/libimobiledevice
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: iOSRealRun-cli-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: |
+            output/
