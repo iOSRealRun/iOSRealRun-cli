@@ -5,13 +5,14 @@ import (
 )
 
 func GetOS() string {
-	if runtime.GOOS == "windows" {
+	switch runtime.GOOS {
+	case "windows":
 		return "win"
-	} else if runtime.GOOS == "darwin" {
+	case "darwin":
 		return "darwin"
-	} else if runtime.GOOS == "linux" {
+	case "linux":
 		return "linux"
-	} else {
+	default:
 		return "unknown"
 	}
 }

@@ -2,9 +2,9 @@ package config
 
 import (
 	"os"
+	"runtime"
 	"strings"
 
-	"github.com/iosRealRun-cli/iOSRealRun-cli/internal/utils"
 	"gopkg.in/yaml.v3"
 )
 
@@ -13,6 +13,7 @@ type config struct {
 	RouteConfig         string  `yaml:"routeConfig"`
 	LibimobiledeviceDir string  `yaml:"libimobiledeviceDir"`
 	ImageDir            string  `yaml:"imageDir"`
+	LogLevel            string  `yaml:"log-level"`
 }
 
 func SetupConfig() (conf config) {
@@ -26,8 +27,18 @@ func SetupConfig() (conf config) {
 		panic(err)
 	}
 
-	// set imageDir
-	OS := utils.GetOS()
+	var OS string
+	switch runtime.GOOS {
+	case "windows":
+		OS = "win"
+	case "darwin":
+		OS = "darwin"
+	case "linux":
+		OS = "linux"
+	default:
+		OS = "unknown"
+	}
+
 	conf.LibimobiledeviceDir = strings.Join([]string{conf.LibimobiledeviceDir, OS}, "/")
 
 	return

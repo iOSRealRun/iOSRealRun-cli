@@ -3,10 +3,17 @@ package parseRoute
 import (
 	"encoding/json"
 	"strconv"
+
+	"github.com/iosRealRun-cli/iOSRealRun-cli/internal/config"
+	"github.com/iosRealRun-cli/iOSRealRun-cli/internal/logger"
 )
 
-func Split(inp []byte) (out []map[string]float64) {
+var myLogger = logger.NewMyLogger("log.log", config.Config.LogLevel)
+
+func ParseRoute(inp []byte) (out []map[string]float64) {
 	// add [] to the beginning and end of the content, don't modify the original content
+	myLogger.Infoln("Start parsing route ...")
+	myLogger.Debugln("inp:", string(inp))
 	content := make([]byte, len(inp))
 	copy(content, inp)
 	content = append([]byte("["), content...)
@@ -16,6 +23,7 @@ func Split(inp []byte) (out []map[string]float64) {
 	var tmp []map[string]string
 	err := json.Unmarshal(content, &tmp)
 	if err != nil {
+		myLogger.Errorln("Parse route failed")
 		panic(err)
 	}
 
@@ -31,5 +39,6 @@ func Split(inp []byte) (out []map[string]float64) {
 		}
 		out = append(out, tmp2)
 	}
+	myLogger.Infoln("Parse route successfully")
 	return
 }

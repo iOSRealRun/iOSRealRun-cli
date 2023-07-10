@@ -6,8 +6,12 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/iosRealRun-cli/iOSRealRun-cli/internal/config"
 	"github.com/iosRealRun-cli/iOSRealRun-cli/internal/device"
+	"github.com/iosRealRun-cli/iOSRealRun-cli/internal/logger"
 )
+
+var myLogger = logger.NewMyLogger("log.log", config.Config.LogLevel)
 
 func GeoDistance(p1 map[string]float64, p2 map[string]float64) (distance float64) {
 	lat1, lng1 := p1["lat"], p1["lng"]
@@ -28,6 +32,9 @@ func GeoDistance(p1 map[string]float64, p2 map[string]float64) (distance float64
 // return an coefficient between 0 and 1 that makes the speed change smoothly
 // then i == start or i == end, the coefficient is 0
 func Smooth(start int, end int, i int) float64 {
+	myLogger.Debugln("start:", start)
+	myLogger.Debugln("end:", end)
+	myLogger.Debugln("i:", i)
 	ii := float64(i-start) / float64(end-start)
 	return math.Pow(math.Sin(ii*math.Pi), 2)
 }
@@ -58,6 +65,7 @@ func randLoc(loc []map[string]float64, d float64, n int) []map[string]float64 {
 			}
 			result[j]["lat"] += (result[j]["lat"] - center["lat"]) / distance * offset * Smooth(start, end, j)
 			result[j]["lng"] += (result[j]["lng"] - center["lng"]) / distance * offset * Smooth(start, end, j)
+			myLogger.Debugln(result[j]["lat"], "\t", result[j]["lng"])
 		}
 	}
 	return result
@@ -74,6 +82,7 @@ func fixLockT(loc []map[string]float64, v float64, dt float64) []map[string]floa
 	for t < T[0] {
 		xa := a["lat"] + float64(j)*(b["lat"]-a["lat"])/float64(IntMax(1, int(T[0]/dt)))
 		xb := a["lng"] + float64(j)*(b["lng"]-a["lng"])/float64(IntMax(1, int(T[0]/dt)))
+		myLogger.Debugln(xa, "\t", xb)
 		fixedLoc = append(fixedLoc, map[string]float64{"lat": xa, "lng": xb})
 		j += 1
 		t += dt
@@ -86,6 +95,7 @@ func fixLockT(loc []map[string]float64, v float64, dt float64) []map[string]floa
 		for t < T[i] {
 			xa := a["lat"] + float64(j)*(b["lat"]-a["lat"])/float64(IntMax(1, int((T[i]-T[i-1])/dt)))
 			xb := a["lng"] + float64(j)*(b["lng"]-a["lng"])/float64(IntMax(1, int((T[i]-T[i-1])/dt)))
+			myLogger.Debugln(xa, "\t", xb)
 			fixedLoc = append(fixedLoc, map[string]float64{"lat": xa, "lng": xb})
 			j += 1
 			t += dt
@@ -96,6 +106,7 @@ func fixLockT(loc []map[string]float64, v float64, dt float64) []map[string]floa
 
 // run a circle
 func run1(loc []map[string]float64, v float64, dt float64) {
+	myLogger.Infoln("Start running a circle")
 	fixedLoc := fixLockT(loc, v, dt)
 	nList := []int{5, 6, 7, 8, 9}
 	n := nList[rand.Intn(len(nList))]
@@ -103,11 +114,13 @@ func run1(loc []map[string]float64, v float64, dt float64) {
 	clock := time.Now()
 	for _, i := range fixedLoc {
 		device.SetLoc(i)
+		myLogger.Debugln("set loc:", i["lat"], "\t", i["lng"])
 		for time.Since(clock).Seconds() < dt {
 			// pass
 		}
 		clock = time.Now()
 	}
+	myLogger.Infoln("Finish running a circle")
 }
 
 // keep running;
@@ -115,9 +128,13 @@ func run1(loc []map[string]float64, v float64, dt float64) {
 // v: the speed;
 // d: the max deviation of pace, Unit: s;
 func Run(loc []map[string]float64, v float64, d int) {
+	circles := 0
 	for {
+		circles++
+		myLogger.Infoln("开始跑第", circles, "圈")
 		vRand := 1000 / (1000/v - (2*rand.Float64()-1)*float64(d))
 		run1(loc, vRand, 0.2)
-		fmt.Println("跑完一圈了")
+		myLogger.Infoln("跑完第", circles, "圈了")
+		fmt.Println("跑完", circles, "圈了")
 	}
 }
