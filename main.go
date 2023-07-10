@@ -15,6 +15,9 @@ import (
 
 func main() {
 	// redirect stderr to ./log/error.log
+	if !utils.FileExists("./log") {
+		os.Mkdir("./log", 0777)
+	}
 	log, err := os.OpenFile("./log/error.log", os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0666)
 	if err != nil {
 		fmt.Println("无法创建日志文件")
