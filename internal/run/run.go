@@ -32,7 +32,7 @@ func Smooth(start int, end int, i int) float64 {
 	return math.Pow(math.Sin(ii*math.Pi), 2)
 }
 
-func RandLoc(loc []map[string]float64, d float64, n int) []map[string]float64 {
+func randLoc(loc []map[string]float64, d float64, n int) []map[string]float64 {
 	// deep copy
 	result := make([]map[string]float64, 0)
 	for _, i := range loc {
@@ -60,22 +60,10 @@ func RandLoc(loc []map[string]float64, d float64, n int) []map[string]float64 {
 			result[j]["lng"] += (result[j]["lng"] - center["lng"]) / distance * offset * Smooth(start, end, j)
 		}
 	}
-	// 这里下面是否还需要可能还需要打断点看一下
-	// start := int(float64(len(result)) / float64(n) * float64(n))
-	// end := len(result)
-	// offset := (2*rand.Float64() - 1) * d
-	// for j := start; j < end; j++ {
-	// 	distance := math.Sqrt(math.Pow(result[j]["lat"]-center["lat"], 2) + math.Pow(result[j]["lng"]-center["lng"], 2))
-	// 	if distance == 0 {
-	// 		continue
-	// 	}
-	// 	result[j]["lat"] += (result[j]["lat"] - center["lat"]) / distance * offset * Smooth(start, end, j)
-	// 	result[j]["lng"] += (result[j]["lng"] - center["lng"]) / distance * offset * Smooth(start, end, j)
-	// }
 	return result
 }
 
-func FixLockT(loc []map[string]float64, v float64, dt float64) []map[string]float64 {
+func fixLockT(loc []map[string]float64, v float64, dt float64) []map[string]float64 {
 	fixedLoc := make([]map[string]float64, 0)
 	t := float64(0)
 	T := make([]float64, 0)
@@ -84,8 +72,8 @@ func FixLockT(loc []map[string]float64, v float64, dt float64) []map[string]floa
 	b := MapCopy(loc[1])
 	j := 0
 	for t < T[0] {
-		xa := a["lat"] + (b["lat"]-a["lat"])/float64(IntMax(1, int(T[0]/dt)))
-		xb := a["lng"] + (b["lng"]-a["lng"])/float64(IntMax(1, int(T[0]/dt)))
+		xa := a["lat"] + float64(j)*(b["lat"]-a["lat"])/float64(IntMax(1, int(T[0]/dt)))
+		xb := a["lng"] + float64(j)*(b["lng"]-a["lng"])/float64(IntMax(1, int(T[0]/dt)))
 		fixedLoc = append(fixedLoc, map[string]float64{"lat": xa, "lng": xb})
 		j += 1
 		t += dt
@@ -96,8 +84,8 @@ func FixLockT(loc []map[string]float64, v float64, dt float64) []map[string]floa
 		b = MapCopy(loc[(i+1)%len(loc)])
 		j = 0
 		for t < T[i] {
-			xa := a["lat"] + (b["lat"]-a["lat"])/float64(IntMax(1, int((T[i]-T[i-1])/dt)))
-			xb := a["lng"] + (b["lng"]-a["lng"])/float64(IntMax(1, int((T[i]-T[i-1])/dt)))
+			xa := a["lat"] + float64(j)*(b["lat"]-a["lat"])/float64(IntMax(1, int((T[i]-T[i-1])/dt)))
+			xb := a["lng"] + float64(j)*(b["lng"]-a["lng"])/float64(IntMax(1, int((T[i]-T[i-1])/dt)))
 			fixedLoc = append(fixedLoc, map[string]float64{"lat": xa, "lng": xb})
 			j += 1
 			t += dt
@@ -106,11 +94,12 @@ func FixLockT(loc []map[string]float64, v float64, dt float64) []map[string]floa
 	return fixedLoc
 }
 
-func Run1(loc []map[string]float64, v float64, dt float64) {
-	fixedLoc := FixLockT(loc, v, dt)
+// run a circle
+func run1(loc []map[string]float64, v float64, dt float64) {
+	fixedLoc := fixLockT(loc, v, dt)
 	nList := []int{5, 6, 7, 8, 9}
 	n := nList[rand.Intn(len(nList))]
-	fixedLoc = RandLoc(fixedLoc, 0.000025, n)
+	fixedLoc = randLoc(fixedLoc, 0.000025, n)
 	clock := time.Now()
 	for _, i := range fixedLoc {
 		device.SetLoc(i)
@@ -121,10 +110,14 @@ func Run1(loc []map[string]float64, v float64, dt float64) {
 	}
 }
 
+// keep running;
+// loc: the location list;
+// v: the speed;
+// d: the max deviation of pace, Unit: s;
 func Run(loc []map[string]float64, v float64, d int) {
 	for {
 		vRand := 1000 / (1000/v - (2*rand.Float64()-1)*float64(d))
-		Run1(loc, vRand, 0.2)
+		run1(loc, vRand, 0.2)
 		fmt.Println("跑完一圈了")
 	}
 }

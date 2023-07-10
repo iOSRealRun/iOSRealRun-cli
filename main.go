@@ -50,7 +50,7 @@ func main() {
 
 	fmt.Printf("已开始模拟跑步，速度大约为 %s m/s\n", strconv.FormatFloat(v, 'f', -1, 64))
 	fmt.Println("会无限绕圈，要停止请按Ctrl+C")
-	fmt.Println("请勿直接关闭窗口，否则无法还原正常代为")
+	fmt.Println("请勿直接关闭窗口，否则无法还原正常定位")
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)

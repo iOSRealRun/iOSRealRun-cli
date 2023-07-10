@@ -56,7 +56,7 @@ func Connect() {
 	}
 
 	deviceName, version := device.GetDeviceInfo()
-	fmt.Printf("已连接到%s\n", deviceName)
+	fmt.Printf("已连接到: %s\n", deviceName)
 	fmt.Printf("系统版本：%s\n", version)
 
 	majorVersion, _ := strconv.ParseInt(strings.Split(version, ".")[0], 10, 64)
