@@ -14,9 +14,11 @@ func Pair() int {
 	resp := utils.CmdWithlibimobidevice([]string{"idevicepair", "pair"}, conf.LibimobiledeviceDir)
 	if strings.Contains(resp, "SUCCESS") {
 		return 0
-	} else if strings.Contains(resp, "No device found") {
+	}
+	if strings.Contains(resp, "No device found") {
 		return 1
-	} else if strings.Contains(resp, "passcode") {
+	}
+	if strings.Contains(resp, "passcode") {
 		for strings.Contains(resp, "passcode") {
 			fmt.Println("请解锁手机后按回车")
 			fmt.Scanln()
@@ -24,10 +26,9 @@ func Pair() int {
 		}
 		if strings.Contains(resp, "SUCCESS") {
 			return 0
-		} else {
-			return -1
 		}
-	} else if strings.Contains(resp, "trust") {
+	}
+	if strings.Contains(resp, "trust") {
 		for strings.Contains(resp, "trust") {
 			fmt.Println("请在你的手机/或平板上按提示信任此电脑并按回车")
 			fmt.Scanln()
