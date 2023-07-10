@@ -9,10 +9,10 @@ import (
 )
 
 type config struct {
-	V                   int    `yaml:"v"`
-	RouteConfig         string `yaml:"routeConfig"`
-	LibimobiledeviceDir string `yaml:"libimobiledeviceDir"`
-	ImageDir            string `yaml:"imageDir"`
+	V                   float64 `yaml:"v"`
+	RouteConfig         string  `yaml:"routeConfig"`
+	LibimobiledeviceDir string  `yaml:"libimobiledeviceDir"`
+	ImageDir            string  `yaml:"imageDir"`
 }
 
 func SetupConfig() (conf config) {

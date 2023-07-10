@@ -7,5 +7,5 @@ func FileExists(path string) bool {
 		return false
 	}
 	_, err := os.Stat(path)
-	return os.IsExist(err)
+	return !os.IsNotExist(err)
 }

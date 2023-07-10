@@ -3,5 +3,5 @@
   - [x] config
   - [x] initialize
   - [x] parseRoute
-  - [ ] run
+  - [x] run
   - [x] utils

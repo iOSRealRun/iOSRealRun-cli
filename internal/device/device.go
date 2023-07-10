@@ -47,5 +47,8 @@ func GetDeviceInfo() (deviceName string, version string) {
 	info := utils.CmdWithlibimobidevice([]string{"ideviceinfo"}, config.Config.LibimobiledeviceDir)
 	deviceName = regexp.MustCompile(`DeviceName: (.*)`).FindStringSubmatch(info)[1]
 	version = regexp.MustCompile(`ProductVersion: (.*)`).FindStringSubmatch(info)[1]
+	// strip
+	deviceName = strings.Trim(deviceName, " \n\r\t")
+	version = strings.Trim(version, " \n\r\t")
 	return
 }
