@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  release:
+    types: [ published ]
+
+permissions: write-all
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+  release:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    if: github.repository == 'iOSRealRun-cli/iOSRealRun-cli'
+    steps:
+      - name: Checkout codebase
+        uses: actions/checkout@v3
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+      - name: zip
+        run: |
+          for dir in iOSRealRun-cli*; do
+            if [ -d "$dir" ]; then
+              echo "------ Zip $dir ----------"
+              (cd $dir && zip -r9 "$dir".zip ./* && mv "$dir".zip ../)
+            fi
+          done
+      - name: Display structure of downloaded files
+        run: ls -R
+      - name: Upload Release
+        if: github.event_name == 'release'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for file in iOSRealRun-cli*.zip; do
+            if [ -f "$file" ]; then
+              echo "------ Upload $file ----------"
+              gh release upload ${{ github.event.release.tag_name }} "$file"
+            fi
+          done
