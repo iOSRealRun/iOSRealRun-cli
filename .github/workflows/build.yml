@@ -11,61 +11,66 @@ jobs:
     if: github.repository == 'iOSRealRun-cli/iOSRealRun-cli'
     strategy:
       matrix:
-        goos: [windows, linux, darwin]
-        goarch: [amd64]
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        arch: [x64]
         include:
-          - goos: darwin
-            goarch: arm64
-      fail-fast: false
+          - os: macos-latest
+            arch: arm64
 
-    runs-on: ubuntu-latest
-    env:
-      GOOS: ${{ matrix.goos }}
-      GOARCH: ${{ matrix.goarch }}
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Check-out repository
         uses: actions/checkout@v3
 
-      - name: Setup Go
-        uses: actions/setup-go@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          go-version-file: go.mod
-          cache: true
-          cache-dependency-path: go.sum
+          python-version: '3.10'
+          architecture: ${{ matrix.arch }}
+          cache: 'pip'
+          cache-dependency-path: |
+            **/requirements*.txt
 
-      - name: Build
+      - name: Install Dependencies
         run: |
-          go build -o build/main
+          pip install -r requirements.txt
+
+      - name: Build Executable
+        uses: Nuitka/Nuitka-Action@main
+        with:
+          nuitka-version: main
+          script-name: main.py
+          onefile: true
 
       - name: Copy Files (Windows)
-        if: matrix.goos == 'windows'
+        if: matrix.os == 'windows-latest'
         run: |
           mkdir output
           mkdir output/libimobiledevice
-          cp build/main output/main.exe
+          cp build/*.exe output/
           cp config.yaml output/
           cp route.txt output/
           cp -r DeveloperDiskImage output/
           cp -r libimobiledevice/win output/libimobiledevice
         
       - name: Copy Files (Linux)
-        if: matrix.goos == 'linux'
+        if: matrix.os == 'ubuntu-latest'
         run: |
           mkdir output
           mkdir output/libimobiledevice
-          cp build/main output/
+          cp build/*.bin output/
           cp config.yaml output/
           cp route.txt output/
           cp -r DeveloperDiskImage output/
           cp -r libimobiledevice/linux output/libimobiledevice
       
       - name: Copy Files (macOS)
-        if: matrix.goos == 'darwin'
+        if: matrix.os == 'macos-latest'
         run: |
           mkdir output
           mkdir output/libimobiledevice
-          cp build/main output/
+          cp build/*.bin output/
           cp config.yaml output/
           cp route.txt output/
           cp main.command output/
@@ -75,6 +80,6 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: iOSRealRun-cli-${{ matrix.goos }}-${{ matrix.goarch }}
+          name: iOSRealRun-cli-${{ runner.os }}-${{ matrix.arch }}
           path: |
             output/
