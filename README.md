@@ -89,4 +89,5 @@ iOSRealRun-cli
 - [Nuitka](https://github.com/Nuitka/Nuitka)  
 
 ## 许可证
-提交 [4d932f](https://github.com/iOSRealRun-cli/iOSRealRun-cli/commit/4d932f7b1a8b83a5b3baca8a19d45f8949fd1fe2) 将许可证由 MIT 改为 [MPL-2.0](https://github.com/iOSRealRun-cli/iOSRealRun-cli/blob/main/LICENSE), 此后以 [MPL-2.0](https://github.com/iOSRealRun-cli/iOSRealRun-cli/blob/main/LICENSE) 分发  
+- 提交 [4d932f](https://github.com/iOSRealRun-cli/iOSRealRun-cli/commit/4d932f7b1a8b83a5b3baca8a19d45f8949fd1fe2) 将许可证由 MIT 改为 [MPL-2.0](https://github.com/iOSRealRun-cli/iOSRealRun-cli/blob/main/LICENSE), 此后以 [MPL-2.0](https://github.com/iOSRealRun-cli/iOSRealRun-cli/blob/main/LICENSE) 分发（除了libimobiledevice文件夹以外的部分）  
+- libimobiledevice 文件夹里面的内容由 [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice) 的Actions构建，许可证为 [LGPL-2.1](https://github.com/libimobiledevice/libimobiledevice/blob/master/COPYING.LESSER) 或 [GPL-2.0](https://github.com/libimobiledevice/libimobiledevice/blob/master/COPYING) ，本项目为对该项目进行链接，仅以命令行的方式对其二进制进行执行。    
