@@ -1,1 +1,2 @@
-PyYAML==6.0
+geopy==2.4.1
+PyYAML==6.0.1

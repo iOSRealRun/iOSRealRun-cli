@@ -63,7 +63,7 @@ def getDeviceInfo():
 
 
 def setLoc(loc):
-    cmd(["idevicesetlocation", "--", str(loc["lat"]-0.00389), str(loc["lng"]-0.01075)], False)
+    cmd(["idevicesetlocation", "--", str(loc["lat"]), str(loc["lng"])], False)
 
 def resetLoc():
     cmd(["idevicesetlocation", "reset"], False)

@@ -2,17 +2,58 @@
 run.py
 automatically run the route
 """
+
+"""修正坐标误差，百度取点使用 BD-09 坐标系，iOS使用 WGS-09 坐标系，进行转换"""
+def bd09Towgs84(position):
+    import math
+    wgs_p = {}
+
+    x_pi = 3.14159265358979324 * 3000.0 / 180.0
+    pi = 3.141592653589793238462643383  # π
+    a = 6378245.0  # 长半轴
+    ee = 0.00669342162296594323  # 偏心率平方
+
+    def transform_lat(x, y):
+        ret = -100.0 + 2.0 * x + 3.0 * y + 0.2 * y * y + 0.1 * x * y + 0.2 * math.sqrt(abs(x))
+        ret += (20.0 * math.sin(6.0 * x * pi) + 20.0 * math.sin(2.0 * x * pi)) * 2.0 / 3.0
+        ret += (20.0 * math.sin(y * pi) + 40.0 * math.sin(y / 3.0 * pi)) * 2.0 / 3.0
+        ret += (160.0 * math.sin(y / 12.0 * pi) + 320 * math.sin(y * pi / 30.0)) * 2.0 / 3.0
+        return ret
+
+    def transform_lon(x, y):
+        ret = 300.0 + x + 2.0 * y + 0.1 * x * x + 0.1 * x * y + 0.1 * math.sqrt(abs(x))
+        ret += (20.0 * math.sin(6.0 * x * pi) + 20.0 * math.sin(2.0 * x * pi)) * 2.0 / 3.0
+        ret += (20.0 * math.sin(x * pi) + 40.0 * math.sin(x / 3.0 * pi)) * 2.0 / 3.0
+        ret += (150.0 * math.sin(x / 12.0 * pi) + 300.0 * math.sin(x / 30.0 * pi)) * 2.0 / 3.0
+        return ret
+
+    x = position['lng'] - 0.0065
+    y = position['lat'] - 0.006
+    z = math.sqrt(x * x + y * y) - 0.00002 * math.sin(y * x_pi)
+    theta = math.atan2(y, x) - 0.000003 * math.cos(x * x_pi)
+
+    gcj_lng = z * math.cos(theta)
+    gcj_lat = z * math.sin(theta)
+
+    d_lat = transform_lat(gcj_lng - 105.0, gcj_lat - 35.0)
+    d_lng = transform_lon(gcj_lng - 105.0, gcj_lat - 35.0)
+
+    rad_lat = gcj_lat / 180.0 * pi
+    magic = math.sin(rad_lat)
+    magic = 1 - ee * magic * magic
+    sqrt_magic = math.sqrt(magic)
+
+    d_lng = (d_lng * 180.0) / (a / sqrt_magic * math.cos(rad_lat) * pi)
+    d_lat = (d_lat * 180.0) / (a * (1 - ee) / (magic * sqrt_magic) * pi)
+
+    wgs_p["lat"] = gcj_lat * 2 - gcj_lat - d_lat
+    wgs_p["lng"] = gcj_lng * 2 - gcj_lng - d_lng
+    return wgs_p
+
 # get the ditance according to the latitude and longitude
 def geodistance(p1, p2):
-    lat1, lng1 = p1["lat"], p1["lng"]
-    lat2, lng2 = p2["lat"], p2["lng"]
-    from math import radians, cos, sin, asin, sqrt
-    lng1, lat1, lng2, lat2 = map(radians, [float(lng1), float(lat1), float(lng2), float(lat2)]) # 经纬度转换成弧度
-    dlon=lng2-lng1
-    dlat=lat2-lat1
-    a=sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-    distance=2*asin(sqrt(a))*6371*1000 # 地球平均半径，6371km
-    return distance
+    from geopy.distance import geodesic
+    return geodesic((p1["lat"],p1["lng"]),(p2["lat"],p2["lng"])).m
 
 def smooth(start, end, i):
     import math
@@ -97,13 +138,12 @@ def run1(loc: list, v, dt=0.2):
     fixedLoc = randLoc(fixedLoc, n=n)  # a path will be divided into n parts for random route
     clock = time.time()
     for i in fixedLoc:
-        utils.setLoc(i)
+        utils.setLoc(bd09Towgs84(i))
         while time.time()-clock < dt:
             pass
         clock = time.time()
 
 def run(loc: list, v, d=15):
-    import tools.utils as utils
     import random
     import time
     random.seed(time.time())
