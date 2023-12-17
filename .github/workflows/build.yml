@@ -50,7 +50,7 @@ jobs:
           mkdir output/libimobiledevice
           cp build/*.exe output/
           cp config.yaml output/
-          cp route.txt output/
+          cp *route.txt output/
           cp -r DeveloperDiskImage output/
           cp -r libimobiledevice/win output/libimobiledevice
         
@@ -61,7 +61,7 @@ jobs:
           mkdir output/libimobiledevice
           cp build/*.bin output/
           cp config.yaml output/
-          cp route.txt output/
+          cp *route.txt output/
           cp -r DeveloperDiskImage output/
           cp -r libimobiledevice/linux output/libimobiledevice
       
@@ -72,7 +72,7 @@ jobs:
           mkdir output/libimobiledevice
           cp build/*.bin output/
           cp config.yaml output/
-          cp route.txt output/
+          cp *route.txt output/
           cp main.command output/
           cp -r DeveloperDiskImage output/
           cp -r libimobiledevice/darwin output/libimobiledevice
