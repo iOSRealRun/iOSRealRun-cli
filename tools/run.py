@@ -2,17 +2,20 @@
 run.py
 automatically run the route
 """
+
 # get the ditance according to the latitude and longitude
 def geodistance(p1, p2):
-    lat1, lng1 = p1["lat"], p1["lng"]
-    lat2, lng2 = p2["lat"], p2["lng"]
-    from math import radians, cos, sin, asin, sqrt
-    lng1, lat1, lng2, lat2 = map(radians, [float(lng1), float(lat1), float(lng2), float(lat2)]) # 经纬度转换成弧度
-    dlon=lng2-lng1
-    dlat=lat2-lat1
-    a=sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-    distance=2*asin(sqrt(a))*6371*1000 # 地球平均半径，6371km
-    return distance
+    from geopy.distance import geodesic
+    return geodesic((p1["lat"],p1["lng"]),(p2["lat"],p2["lng"])).m
+    # lat1, lng1 = p1["lat"], p1["lng"]
+    # lat2, lng2 = p2["lat"], p2["lng"]
+    # from math import radians, cos, sin, asin, sqrt
+    # lng1, lat1, lng2, lat2 = map(radians, [float(lng1), float(lat1), float(lng2), float(lat2)]) # 经纬度转换成弧度
+    # dlon=lng2-lng1
+    # dlat=lat2-lat1
+    # a=sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    # distance=2*asin(sqrt(a))*6371*1000 # 地球平均半径，6371km
+    # return distance
 
 def smooth(start, end, i):
     import math
@@ -103,7 +106,6 @@ def run1(loc: list, v, dt=0.2):
         clock = time.time()
 
 def run(loc: list, v, d=15):
-    import tools.utils as utils
     import random
     import time
     random.seed(time.time())

@@ -2,6 +2,9 @@
 utils.py
 """
 
+lngOffset = -0.01133475586197
+latOffset = -0.00375877899754
+
 # execute a command and return the output
 def cmd(i_cmd, getoutp=True, libimobiledevice=True):
     from main import seperator
@@ -63,7 +66,7 @@ def getDeviceInfo():
 
 
 def setLoc(loc):
-    cmd(["idevicesetlocation", "--", str(loc["lat"]-0.00389), str(loc["lng"]-0.01075)], False)
+    cmd(["idevicesetlocation", "--", str(loc["lat"] + latOffset), str(loc["lng"] + lngOffset)], False)
 
 def resetLoc():
     cmd(["idevicesetlocation", "reset"], False)
