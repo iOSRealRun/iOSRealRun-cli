@@ -51,7 +51,7 @@ iOSRealRun-cli
      - 查看自己的 iOS 版本，下载对应的 `DeveloperDiskImage.dmg` 和 `DeveloperDiskImage.dmg.signature` 文件  
      - 进入脚本目录 `DeveloperDiskImage` 文件夹中建立以版本号为名称的文件夹，将刚才下载的两个文件放入此文件夹。  
        例如，你是 15.1 版本的系统，你需要下载并解压 `DeveloperDiskImage.dmg` 和 `DeveloperDiskImage.dmg.signature` 文件，把他们放到 `DeveloperDiskImage/15.1` 里面  
-  4. 接下来和 [iOSFakeRun](https://github.com/Mythologyli/iOSFakeRun) 一样要获取你要的跑步路径，格式和其使用的格式完全相同，**但是请只画一圈**，项目预置了一个画的不太行的海宁操场路径，建议所有人都自己画路径  
+  4. 接下来和 [iOSFakeRun](https://github.com/Mythologyli/iOSFakeRun) 一样要获取你要的跑步路径，格式和其使用的格式完全相同，**但是请只画一圈**，项目预置了一个画的不太行的紫金港操场路径，建议所有人都自己画路径  
      > 打开[路径拾取网站](https://fakerun.myth.cx/)。通过点击地图构造路径。点击时无需考虑间距，会自动用直线连接。路径点击完成后，单击上方的路径坐标——复制，将坐标数据复制到剪贴板  
   5. 打开脚本目录里的 `route.txt` 文件，将刚复制的文件原封不动的粘贴进去，保存并退出  
   6. 对于 Windows，你需要安装 iTunes，以确保驱动正常运行  
