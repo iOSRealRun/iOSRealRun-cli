@@ -69,10 +69,11 @@ iOSRealRun-cli
      sudo xattr -d -r com.apple.quarantine .
      ```
   10. 用数据线将电脑连接到 iPhone 或 iPad  
-  11. Mac 用户打开 `main.command`，Windows 用户打开 `main.exe`，Linux 用户打开 `main.bin`  
-  12. 按照提示完成设备连接和开发者模式的开启  
-  13. 都好了大概就开跑了，默认无限循环  
-  14. 跑完之后请 **务必使用 Ctrl + C** 来停止，而非直接把窗口叉掉，否则不能自动恢复手机或pad的正常定位  
+  11. 如果你是Linux用户，记得给`main.bin`增加执行权限：`chmod +x main.bin`
+  12. Mac 用户打开 `main.command`，Windows 用户打开 `main.exe`，Linux 用户在终端中执行 `./main.bin`
+  13. 按照提示完成设备连接和开发者模式的开启  
+  14. 都好了大概就开跑了，默认无限循环  
+  15. 跑完之后请 **务必使用 Ctrl + C** 来停止，而非直接把窗口叉掉，否则不能自动恢复手机或pad的正常定位  
 
 ## FAQ
 - 有一定的概率在第7、8步左右的时候，也就显示出你的系统版本之后会卡住，  
