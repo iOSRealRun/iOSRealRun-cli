@@ -60,6 +60,7 @@ jobs:
           mkdir output
           mkdir output/libimobiledevice
           cp build/*.bin output/
+          chmod +x output/*.bin
           cp config.yaml output/
           cp *route.txt output/
           cp -r DeveloperDiskImage output/
