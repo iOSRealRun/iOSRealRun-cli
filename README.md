@@ -1,6 +1,9 @@
 iOSRealRun-cli
 ---
 
+# DO NOT PR now unless you want to help switch from libimobiledevice to [pymobiledevice3](https://github.com/doronz88/pymobiledevice3). But before that, please post an issue to discuss it. Development branch is [iOS17](https://github.com/iOSRealRun-cli/iOSRealRun-cli/tree/iOS17).
+# 现在请不要 PR 除非你想帮我把 libimobiledevice 换成 [pymobiledevice3](https://github.com/doronz88/pymobiledevice3)。但在此之前，请先提一个 issue 来讨论一下。开发分支是 [iOS17](https://github.com/iOSRealRun-cli/iOSRealRun-cli/tree/iOS17)。
+
 ## 背景
 原 [iOSFakeRun](https://github.com/Mythologyli/iOSFakeRun) 只能在windows上用，且每圈的路径是一样的。同时对于很多iOS/iPadOS16及以上的设备，不能方便地打开开发者模式，但是由于我不会C#无法给其提PR，所以有了这个项目  
 
