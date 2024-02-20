@@ -13,7 +13,7 @@ jobs:
     needs:
       - build
     runs-on: ubuntu-latest
-    if: github.repository == 'iOSRealRun-cli/iOSRealRun-cli'
+    if: github.repository == 'iOSRealRun/iOSRealRun-cli'
     steps:
       - name: Checkout codebase
         uses: actions/checkout@v3
