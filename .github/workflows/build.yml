@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-    if: github.repository == 'iOSRealRun/iOSRealRun-cli'
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
