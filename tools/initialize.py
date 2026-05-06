@@ -1,17 +1,16 @@
 import tools.utils as utils
+from tools import runtime
 
 
 # connect to the device and mount DevelopDiskImage
 def connect() -> int:
     import os
     import sys
-    from main import seperator
-    from main import OS
     from tools.config import config
 
-    if OS != "win":
+    if runtime.OS != "win":
         os.system("chmod -R +rx " + config.libimobiledeviceDir)
-        if OS == "linux":
+        if runtime.OS == "linux":
             path = os.environ["PATH"].split(":")
             check = False
             for i in path:
@@ -65,8 +64,8 @@ def connect() -> int:
 
     imageCMD = [
         "ideviceimagemounter",
-        "{}{}{}{}DeveloperDiskImage.dmg".format(config.imageDir, seperator, version, seperator),
-        "{}{}{}{}DeveloperDiskImage.dmg.signature".format(config.imageDir, seperator, version, seperator),
+        "{}{}{}{}DeveloperDiskImage.dmg".format(config.imageDir, runtime.separator, version, runtime.separator),
+        "{}{}{}{}DeveloperDiskImage.dmg.signature".format(config.imageDir, runtime.separator, version, runtime.separator),
     ]
     if -1 != utils.cmd(imageCMD).find("-3"):
         print("开发者镜像签名验证失败，你要重新下一遍")

@@ -4,19 +4,20 @@ utils.py
 
 # execute a command and return the output
 def cmd(i_cmd, getoutp=True, libimobiledevice=True):
-    from main import seperator
-    from main import libimobiledeviceDir
-    from main import OS, env
     import subprocess
+    from tools import runtime
+
+    command = i_cmd
     if libimobiledevice:
-        if type(i_cmd) == str:
-            i_cmd = seperator.join([libimobiledeviceDir, i_cmd])
+        if type(command) == str:
+            command = runtime.separator.join([runtime.libimobiledevice_dir, command])
         else:
-            i_cmd[0] = seperator.join([libimobiledeviceDir, i_cmd[0]])
+            command = list(command)
+            command[0] = runtime.separator.join([runtime.libimobiledevice_dir, command[0]])
     if getoutp:
-        return subprocess.Popen(i_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env[OS]).stdout.read().decode("utf-8")
+        return subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=runtime.env[runtime.OS]).stdout.read().decode("utf-8")
     else:
-        subprocess.run(i_cmd, env=env[OS])
+        subprocess.run(command, env=runtime.env[runtime.OS])
 
 
 # get the OS

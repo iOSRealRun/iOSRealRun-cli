@@ -52,8 +52,16 @@ def bd09Towgs84(position):
 
 # get the ditance according to the latitude and longitude
 def geodistance(p1, p2):
-    from geopy.distance import geodesic
-    return geodesic((p1["lat"],p1["lng"]),(p2["lat"],p2["lng"])).m
+    import math
+
+    radius = 6371008.8
+    lat1 = math.radians(p1["lat"])
+    lat2 = math.radians(p2["lat"])
+    d_lat = lat2 - lat1
+    d_lng = math.radians(p2["lng"] - p1["lng"])
+
+    a = math.sin(d_lat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(d_lng / 2) ** 2
+    return 2 * radius * math.asin(min(1, math.sqrt(a)))
 
 def smooth(start, end, i):
     import math
@@ -128,6 +136,12 @@ def fixLockT(loc: list, v, dt):
             t += dt
     return fixedLoc
 
+def pathDistance(loc: list):
+    distance = 0
+    for i in range(len(loc)):
+        distance += geodistance(loc[i], loc[(i+1)%len(loc)])
+    return distance
+
 def run1(loc: list, v, dt=0.2):
     import time
     import tools.utils as utils
@@ -136,18 +150,40 @@ def run1(loc: list, v, dt=0.2):
     nList = (5, 6, 7, 8, 9)
     n = nList[random.randint(0, len(nList)-1)]
     fixedLoc = randLoc(fixedLoc, n=n)  # a path will be divided into n parts for random route
+    distance = pathDistance(fixedLoc)
     clock = time.time()
     for i in fixedLoc:
         utils.setLoc(bd09Towgs84(i))
         while time.time()-clock < dt:
             pass
         clock = time.time()
+    return distance
+
+def getDistanceLimit(extraDistance=200):
+    from tools.config import config
+    distance = getattr(config, "distance", None)
+    if distance is None:
+        return None
+    distance = float(distance)
+    if distance <= 0:
+        return None
+    return distance + extraDistance
 
 def run(loc: list, v, d=15):
     import random
     import time
     random.seed(time.time())
+    distanceLimit = getDistanceLimit()
+    distance = 0
+    if distanceLimit:
+        print("设置跑步距离为 {} m，将额外多跑约 200 m 后自动停止".format(str(distanceLimit-200)))
     while True:
         vRand = 1000/(1000/v-(2*random.random()-1)*d)
-        run1(loc, vRand)
-        print("跑完一圈了")
+        distance += run1(loc, vRand)
+        if distanceLimit:
+            print("跑完一圈了，累计约 {:.1f} m".format(distance))
+            if distance >= distanceLimit:
+                print("已达到设置距离，将恢复正常定位并结束")
+                return
+        else:
+            print("跑完一圈了")
